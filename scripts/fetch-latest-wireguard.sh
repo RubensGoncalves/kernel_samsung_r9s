@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
+<<<<<<< HEAD
 USER_AGENT="WireGuard-AndroidROMBuild/0.3 ($(uname -a))"
+=======
+USER_AGENT="WireGuard-AndroidROMBuild/0.2 ($(uname -a))"
+>>>>>>> c9b1dc9cd (net/wireguard: add wireguard importer)
 
 exec 9>.wireguard-fetch-lock
 flock -n 9 || exit 0
@@ -8,7 +12,11 @@ flock -n 9 || exit 0
 [[ $(( $(date +%s) - $(stat -c %Y "net/wireguard/.check" 2>/dev/null || echo 0) )) -gt 86400 ]] || exit 0
 
 while read -r distro package version _; do
+<<<<<<< HEAD
 	if [[ $distro == upstream && $package == linuxcompat ]]; then
+=======
+	if [[ $distro == upstream && $package == kmodtools ]]; then
+>>>>>>> c9b1dc9cd (net/wireguard: add wireguard importer)
 		VERSION="$version"
 		break
 	fi
@@ -23,6 +31,10 @@ fi
 
 rm -rf net/wireguard
 mkdir -p net/wireguard
+<<<<<<< HEAD
 curl -A "$USER_AGENT" -LsS --connect-timeout 30 "https://git.zx2c4.com/wireguard-linux-compat/snapshot/wireguard-linux-compat-$VERSION.tar.xz" | tar -C "net/wireguard" -xJf - --strip-components=2 "wireguard-linux-compat-$VERSION/src"
+=======
+curl -A "$USER_AGENT" -LsS "https://git.zx2c4.com/WireGuard/snapshot/WireGuard-$VERSION.tar.xz" | tar -C "net/wireguard" -xJf - --strip-components=2 "WireGuard-$VERSION/src"
+>>>>>>> c9b1dc9cd (net/wireguard: add wireguard importer)
 sed -i 's/tristate/bool/;s/default m/default y/;' net/wireguard/Kconfig
 touch net/wireguard/.check
